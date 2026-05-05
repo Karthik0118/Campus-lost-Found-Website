@@ -52,7 +52,7 @@ export default function Layout({ children }) {
 
       <footer className="footer">
         <div className="container footerInner">
-          <span className="muted">Beginner MERN Lost &amp; Found Portal</span>
+          
         </div>
       </footer>
     </div>
