@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { deleteItem, getItem, getMatches, updateItem } from "../api/items.js";
 import { sendMessage } from "../api/messages.js";
+import { fileUrl } from "../api/client.js";
 import { useAuth } from "../state/auth.jsx";
 import { formatDate } from "../utils/format.js";
 import ItemCard from "../components/ItemCard.jsx";
@@ -145,6 +146,16 @@ export default function ItemDetailsPage() {
 
         {!editMode ? (
           <>
+            {item.imageUrl ? (
+              <div className="cardInner">
+                <div className="muted small">Image</div>
+                <img
+                  src={fileUrl(item.imageUrl)}
+                  alt={item.title}
+                  style={{ width: "100%", maxWidth: 520, borderRadius: 12, border: "1px solid rgba(255,255,255,0.12)" }}
+                />
+              </div>
+            ) : null}
             <p className="textBlock">{item.description}</p>
 
             <div className="cardInner">

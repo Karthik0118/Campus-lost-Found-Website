@@ -6,6 +6,13 @@ export const api = axios.create({
   baseURL: API_URL,
 });
 
+export function fileUrl(relativeOrAbsolute) {
+  if (!relativeOrAbsolute) return "";
+  if (String(relativeOrAbsolute).startsWith("http")) return relativeOrAbsolute;
+  const base = API_URL.replace(/\/api\/?$/, "");
+  return `${base}${relativeOrAbsolute}`;
+}
+
 export function setAuthToken(token) {
   if (token) api.defaults.headers.common.Authorization = `Bearer ${token}`;
   else delete api.defaults.headers.common.Authorization;

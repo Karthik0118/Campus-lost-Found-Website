@@ -39,7 +39,7 @@ router.get("/mine", protect, async (req, res) => {
 
 // POST /api/items
 router.post("/", protect, async (req, res) => {
-  const { type, title, description, category, date, location, contactInfo } = req.body || {};
+  const { type, title, description, category, date, location, contactInfo, imageUrl } = req.body || {};
   if (!type || !title || !description || !category || !date || !location || !contactInfo) {
     return res.status(400).json({ message: "All fields are required" });
   }
@@ -55,6 +55,7 @@ router.post("/", protect, async (req, res) => {
     date: new Date(date),
     location: String(location).trim(),
     contactInfo: String(contactInfo).trim(),
+    imageUrl: imageUrl ? String(imageUrl).trim() : undefined,
     keywords,
     user: req.user._id,
   });
@@ -76,7 +77,7 @@ router.put("/:id", protect, async (req, res) => {
   if (String(item.user) !== String(req.user._id)) return res.status(403).json({ message: "Forbidden" });
 
   const updates = {};
-  const fields = ["type", "title", "description", "category", "date", "location", "contactInfo"];
+  const fields = ["type", "title", "description", "category", "date", "location", "contactInfo", "imageUrl"];
   for (const f of fields) {
     if (req.body && req.body[f] !== undefined) updates[f] = req.body[f];
   }

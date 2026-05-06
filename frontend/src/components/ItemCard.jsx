@@ -1,9 +1,18 @@
 import { Link } from "react-router-dom";
 import { formatDate } from "../utils/format.js";
+import { fileUrl } from "../api/client.js";
 
 export default function ItemCard({ item }) {
   return (
     <div className="card itemCard">
+      {item.imageUrl ? (
+        <img
+          src={fileUrl(item.imageUrl)}
+          alt={item.title}
+          className="itemThumb"
+          loading="lazy"
+        />
+      ) : null}
       <div className="badgeRow">
         <span className={item.type === "lost" ? "badge badgeLost" : "badge badgeFound"}>{item.type.toUpperCase()}</span>
         <span className="badge badgeNeutral">{item.category}</span>

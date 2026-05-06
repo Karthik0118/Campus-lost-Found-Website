@@ -9,6 +9,7 @@ const itemSchema = new mongoose.Schema(
     date: { type: Date, required: true },
     location: { type: String, required: true, trim: true },
     contactInfo: { type: String, required: true, trim: true },
+    imageUrl: { type: String, trim: true },
     keywords: [{ type: String, trim: true }],
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   },

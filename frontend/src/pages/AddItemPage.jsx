@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createItem } from "../api/items.js";
+import { uploadImage } from "../api/uploads.js";
 
 export default function AddItemPage() {
   const navigate = useNavigate();
@@ -11,6 +12,8 @@ export default function AddItemPage() {
   const [date, setDate] = useState("");
   const [location, setLocation] = useState("");
   const [contactInfo, setContactInfo] = useState("");
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState("");
   const [error, setError] = useState(null);
   const [busy, setBusy] = useState(false);
 
@@ -19,7 +22,11 @@ export default function AddItemPage() {
     setError(null);
     setBusy(true);
     try {
-      const item = await createItem({ type, title, description, category, date, location, contactInfo });
+      let imageUrl;
+      if (imageFile) {
+        imageUrl = await uploadImage(imageFile);
+      }
+      const item = await createItem({ type, title, description, category, date, location, contactInfo, imageUrl });
       navigate(`/items/${item._id}`);
     } catch (err) {
       setError(err?.response?.data?.message || "Failed to create item");
@@ -51,6 +58,28 @@ export default function AddItemPage() {
             Description
             <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={4} required />
           </label>
+          <label>
+            Image (optional, max 2MB)
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                const f = e.target.files?.[0] || null;
+                setImageFile(f);
+                setImagePreview(f ? URL.createObjectURL(f) : "");
+              }}
+            />
+          </label>
+          {imagePreview ? (
+            <div className="cardInner">
+              <div className="muted small">Preview</div>
+              <img
+                src={imagePreview}
+                alt="preview"
+                style={{ width: "100%", maxWidth: 360, borderRadius: 12, border: "1px solid rgba(255,255,255,0.12)" }}
+              />
+            </div>
+          ) : null}
           <label>
             Category
             <input

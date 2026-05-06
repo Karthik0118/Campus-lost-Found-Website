@@ -57,6 +57,9 @@ Frontend runs on `http://localhost:5173`.
   - `POST /api/items` (Bearer token)
   - `PUT /api/items/:id` (Bearer token, owner only)
   - `DELETE /api/items/:id` (Bearer token, owner only)
+- **Uploads (images)**
+  - `POST /api/uploads/image` (Bearer token, form-data `image`, max 2MB)
+  - Uploaded files are served from `GET /uploads/<filename>`
 - **Messages (simple)**
   - `POST /api/messages` (Bearer token)
   - `GET /api/messages/inbox` (Bearer token)
